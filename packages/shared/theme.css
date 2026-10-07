@@ -1,0 +1,115 @@
+/**
+ * @file theme.css
+ * @description 웨일 브라우저 및 웨일스페이스 UI 디자인 가이드 기반 공통 스타일
+ */
+
+:root {
+  --whale-green: #00c73c;
+  --whale-green-hover: #00b336;
+  --whale-green-light: #e6f9ed;
+  --whale-blue: #0475f4;
+  --whale-blue-light: #ebf4fe;
+
+  --text-main: #1e2022;
+  --text-sub: #686e74;
+  --text-light: #8e959d;
+
+  --bg-page: #f8f9fa;
+  --bg-card: #ffffff;
+  --border-color: #e4e8eb;
+  --danger-color: #f04438;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-main);
+  background-color: var(--bg-page);
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.sidebar-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 16px;
+  gap: 12px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: var(--whale-green);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.btn-primary:hover {
+  background-color: var(--whale-green-hover);
+}
+
+.btn-subtle {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-sub);
+  border-radius: var(--radius-sm);
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.btn-subtle:hover {
+  color: var(--text-main);
+  border-color: var(--text-sub);
+}
+
+.input-text {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.input-text:focus {
+  border-color: var(--whale-green);
+  box-shadow: 0 0 0 2px rgba(0, 199, 60, 0.2);
+}

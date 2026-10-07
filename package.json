@@ -1,0 +1,22 @@
+{
+  "name": "whale-space-multi-project-workspace",
+  "version": "1.0.0",
+  "description": "웨일스페이스 수업도구 공모전 멀티 프로젝트 개발 워크스페이스",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "create-project": "node scripts/create-project.mjs",
+    "package-project": "node scripts/package-project.mjs",
+    "generate-icons": "node scripts/generate-icons.mjs"
+  },
+  "keywords": [
+    "whale",
+    "whalespace",
+    "whalebook",
+    "browser-extension",
+    "manifest-v3",
+    "education"
+  ],
+  "author": "",
+  "license": "MIT"
+}

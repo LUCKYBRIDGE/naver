@@ -1,0 +1,14 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  color: #1e2022;
+  overflow-x: hidden;
+}
+.sidebar-layout { display: flex; flex-direction: column; min-height: 100vh; padding: 16px; gap: 12px; }
+.app-header { padding-bottom: 8px; border-bottom: 1px solid #e4e8eb; }
+.brand-title { font-size: 16px; font-weight: 700; }
+.card { background: #fff; border: 1px solid #e4e8eb; border-radius: 8px; padding: 14px; }
+.card-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: #686e74; }
+.app-footer { margin-top: auto; text-align: center; font-size: 11px; color: #8e959d; }
