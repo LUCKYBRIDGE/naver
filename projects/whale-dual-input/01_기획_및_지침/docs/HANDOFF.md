@@ -1,6 +1,6 @@
 # 다른 기기에서 이어받기
 
-작성일: 2026-10-07. 현재 단계: 기획·기술 검증 준비.
+작성일: 2026-10-07. 현재 단계: 0.2.0 통합 구현 진행, 핵심 Windows 입력 분리 미완성.
 
 ## 사용자가 확정한 핵심 요구사항
 
@@ -21,18 +21,27 @@
 3. [PREPARATION](PREPARATION.md), [TEST](TEST.md), [PRIVACY](PRIVACY.md), [UX](UX.md)를 참조한다.
 4. v3와 루트 v2는 과거 기획 이력이다. 훅만으로 완전 분리를 보장한다는 표현은 실증 결과가 아니다.
 
-사용 안내서는 목표 시나리오 초안이다. exe·F9·가상 키보드·시뮬레이션이 현재 동작한다고 판단하지 않는다.
+Windows EXE·F9·가상 키보드 코드는 생성되었으나 Windows 실행과 핵심 입력 격리는 아직 미완료다. [입력 엔진 판단](INPUT_ENGINE_DECISION.md)을 먼저 읽는다. 설치 흐름은 [INSTALL_WINDOWS](INSTALL_WINDOWS.md), 실험 도구는 [P1A_RUNBOOK](P1A_RUNBOOK.md)을 따른다. 시뮬레이션 모드는 없다.
 
 ## 현재 구현과 첫 과제
 
-`02_제작_결과물/`에 MV3 Manifest, Service Worker, Content Script, Sidebar, 아이콘만 있다. 스크립트는 기본 로그 수준이고 Native 호스트·독립 입력 엔진·가상 키보드·한글 조합기는 아직 없다.
+`background/session.js`, `content/hangul.js`, 페이지 키보드, 사이드바, `native/WhaleDualInput.Host/`를 연결했다. Native 호스트는 .NET 10 WinForms/Win32 기반이며 Native 등록·viewport 지정·터치 수신 후보·F9·감시 종료를 구현했다. `npm run build:windows`는 win-x64 EXE와 제품 확장앱 ZIP을 만든다. 핵심 입력 분리 후보의 한계가 확인되어 실제 완성본으로 부르지 않는다.
 
 첫 과제는 다음 두 기술 검증이다.
 
 1. **P1a:** 다른 앱과 다른 웨일 창에서 교사가 타이핑하는 동안, 비활성 학생 웨일 탭에 CDP 클릭·스크롤·문자를 전달해도 교사 포커스가 유지되는지 확인한다.
 2. **P1b:** 실제 전자칠판 USB 터치에서 합성 마우스 훅과 비활성 입력 수신 창 후보를 각각 시험하여 커서 이동·숨김·포커스 탈취를 막을 수 있는지 확인한다.
 
-두 검증을 통과하면 Native Messaging 연결·세션·OFF/F9, 좌표·마우스 조작, 가상 키보드·한글 조합 순으로 구현한다. 등록 레지스트리 위치와 HWND/windowId/tabId 연결은 Whale에서 직접 확인한다.
+### 이어받을 현재 상태
+
+- 목표: 교사 커서·포커스·문자 입력을 처음부터 보존하는 실제 독립 입력. 현재 마일스톤: 통합 구현 코드·배포 생성, 입력 수신 방식 보완 필요.
+- 사용자 지시: 테스트용 골격에서 끝내지 않고 본 프로그램을 실제로 완성한다. 기능 구현을 먼저 진행하고 완성된 동작에 대해 검사한다. Windows PC와 전자칠판을 모두 보유함.
+- 변경 파일: 제품 Manifest/background/content/sidebar, Windows Native 호스트, `build-windows.mjs`, 기존 P1a 도구, 설치·권한·현재 판단 문서.
+- 의사결정: .NET 10 자체 포함 win-x64, 사이트별 선택 권한, 수동 viewport 교정, CDP Input, 학생 한글 조합. 터치 수신 창 B는 확정된 독립 입력 엔진이 아니다. HTTRANSPARENT와 커서 억제의 한계를 보완해야 한다.
+- 다음 즉시 작업: Windows 접근 경로 확보 후 입력 엔진·Native 등록 경로를 확정하고 제품 코드 수정. 현재 ZIP/빌드 통과를 완성으로 보고하지 않는다.
+- 사용자 요청으로 소스는 GitHub main에 커밋·push하고 Windows ZIP은 시험용 prerelease에 첨부한다. 다음 작업 전에 원격 최신 커밋과 Releases를 확인한다.
+
+최신 사용자 지시로 통합 기능을 먼저 구현했다. 기존 P1a/P1b 계획은 후속 검증 기준으로 유지한다. 등록 레지스트리 위치와 HWND/windowId/tabId 연결, 교사 입력 보호는 Windows에서 확인하고 보완한다.
 
 단순 dispatchEvent, 우클릭 시뮬레이션, API 성공 응답만으로 실기기 성공을 선언하지 않는다. 기술 후보가 실패하면 결과를 기록하고 후보를 재검토한다.
 

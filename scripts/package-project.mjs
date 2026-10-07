@@ -25,6 +25,11 @@ if (!fs.existsSync(sourceDir)) {
   process.exit(1);
 }
 
+if (folderName === 'whale-dual-input' && fs.existsSync(path.join(sourceDir, 'tests'))) {
+  console.error('실험 도구가 포함된 소스 전체를 제출용으로 압축할 수 없습니다. npm run build의 별도 extension 출력을 확인하고, P2/P5 배포 분리 후 제출하세요.');
+  process.exit(1);
+}
+
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
 }

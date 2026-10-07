@@ -1,18 +1,20 @@
 # 권한 및 데이터 처리 계획
 
-작성일: 2026-10-07. 상태: 구현 전 설계. 현재 Manifest는 변경하지 않았다.
+작성일: 2026-10-07. 상태: 0.2.0 구현. 제품 Manifest는 최소 동작 권한과 사이트별 선택 권한으로 변경했다.
+
+후속 P1a 실험은 제품과 별도 Manifest를 사용한다. `debugger`와 루프백 host 권한만 요청하고 정확한 시험 URL·고정 관찰식·Input 명령으로 제한한다. 권한 capability, 메모리 관찰값 및 종료 방법은 [P1A_RUNBOOK](P1A_RUNBOOK.md)의 권한·중단 절차를 따른다. 교사 입력 내용·실제 수업 페이지는 실험 도구의 수집 대상이 아니다.
 
 ## 1. 현재와 후보 권한
 
 | 항목 | 현재 상태 | 구현 시 판단 |
 |---|---|---|
-| storage | 선언됨, 사용 코드 없음 | 설정·교정 저장에 사용될 때만 유지 |
-| activeTab | 선언됨, 사용 코드 없음 | 실제 사용자 실행 흐름에서 부여되는지 Whale 확인. 전체 자동 접근을 허용하는 권한으로 취급하지 않음 |
-| 모든 HTTP/HTTPS content_scripts matches | 선언됨, 로그만 실행 | 첫 프로브 사이트로 제한하고 이후 명시적 사이트 허용과 필요한 프레임만 지원 |
-| nativeMessaging | 없음 | 선택한 Windows 호스트와 통신에 필요하면 추가. 등록·제거 절차와 함께 설명 |
-| debugger | 없음 | 대상 탭 CDP 입력이 필요하고 P1a를 통과하면 추가 검토. 범위가 큰 권한임을 안내 |
-| scripting | 없음 | 허용된 사이트에 필요할 때만 UI 주입하는 방식 채택 시 검토 |
-| optional_host_permissions | 없음 | 실제 수업 사이트 단위 접근 요청에 사용 검토. 사이트 목록 확정 후 작성 |
+| storage | 제거 | 세션·교정값은 실행 중 메모리에만 둠 |
+| activeTab | 선언됨 | 사용자 선택한 학생 탭을 대상으로 사용 |
+| 모든 HTTP/HTTPS content_scripts matches | 제거 | 전체 사이트 자동 주입 없음 |
+| nativeMessaging | 선언됨 | 등록한 Windows 호스트와만 통신 |
+| debugger | 선언됨 | 선택된 학생 탭의 Input 명령만 전달 |
+| scripting | 선언됨 | 사용자 허용한 사이트의 선택 탭에 키보드·학생 포인터 주입 |
+| optional_host_permissions | http/https 후보 범위 선언 | 사이드바에 입력한 구체적 사이트 origin만 사용자 동작으로 요청 |
 | tabs / webNavigation | 없음 | 민감한 탭 메타데이터·탐색 감시가 실제로 필요할 때만 검토. 대상 ID·이벤트만으로 가능한지 우선 확인 |
 
 위 목록은 권한을 모두 넣으라는 지시가 아니다. 구현 단계별로 필요한 항목만 추가한다. `debugger`의 실제 capability는 앱 내부 명령 제한보다 크므로 선택한 탭·허용 명령으로 동작을 제한하고 사용자와 학교 관리자가 판단할 수 있게 한다. [Chrome debugger API](https://developer.chrome.com/docs/extensions/reference/api/debugger)
@@ -23,7 +25,7 @@
 
 | 데이터 | 처리 위치 | 보존 정책 |
 |---|---|---|
-| 선택 장치·디스플레이 설정, 교정값 | PC/확장앱 로컬 저장 | 사용자가 초기화 가능, 설치 제거 절차에 삭제 명시 |
+| 선택 장치·디스플레이 설정, 교정값 | 실행 중 메모리 | 대상 재선택·호스트 종료 때 폐기 |
 | HWND·tabId·windowId·세션·좌표 세대 | 실행 중 메모리 / 필요한 session storage | OFF·대상 변경·재시작 때 폐기, ON 상태 영구 보존 금지 |
 | 학생 포인터 좌표·버튼 상태 | Native → Worker → 대상 페이지 | 동작 처리 후 폐기, 기본 로그 없음 |
 | 학생 입력 문자열·조합 상태 | 페이지·확장앱 메모리 | 편집 처리에 필요한 동안만. 로그·Native 호스트·서버로 보내지 않음 |
@@ -40,6 +42,7 @@
 - 명령 종류·메시지 크기·좌표·seq를 제한. 임의 CDP·파일 경로·셸 명령·전역 키 입력은 허용하지 않음.
 - Native 표준 출력은 프로토콜 전용. 입력 문자를 포함하는 디버그 출력 금지.
 - 지속 통신은 활성 독립 입력 세션에서만 사용. 연결 종료 때 입력 격리 해제.
+- 연결 등록 manifest는 사용자 로컬 `WhaleDualInput/native-host.json`에 저장한다. 설치된 EXE 경로·허용 확장앱 ID만 포함하며 학생 데이터는 없다. 등록 해제는 해당 호스트 키만 삭제한다.
 - 별도 Named Pipe 도입 시 해당 Windows 사용자에게 접근 제한. localhost 포트를 기본 배포에 열지 않음.
 
 Native Messaging의 호스트 등록·프로토콜·권한은 Chrome 문서를 참고하되 Whale 등록 위치·정책은 실기기에서 확정한다. [Native Messaging](https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging)

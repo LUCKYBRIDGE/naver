@@ -1,7 +1,7 @@
 # Whale Dual Input 구현 준비 및 개발 계획 v4.0
 
 - 작성일: 2026-10-07
-- 상태: 기획 / 기술 검증 준비. 독립 입력 기능의 구현·실기기 검증 전.
+- 상태: 0.2.0 Windows 구현 패키지 작성. 실기기 검증 전.
 - 기준 환경: 교사가 업무하는 Windows PC 한 대 + 업무용 모니터 + HDMI·USB로 연결된 전자칠판 + 해당 PC에서 실행되는 NAVER Whale.
 - 이 문서는 현재 구현 계획의 기준이다. 기존 개발기획안 v3는 기획 이력으로 보존한다.
 
@@ -24,9 +24,9 @@
 
 ## 2. 현재 상태
 
-`02_제작_결과물/manifest.json`은 MV3, 모듈 Service Worker, `sidebar_action`, `storage`, `activeTab`을 선언한다. Content Script는 모든 HTTP/HTTPS 페이지에 자동 주입된다.
+`02_제작_결과물/manifest.json`은 MV3, 모듈 Service Worker, `sidebar_action`, `activeTab`, `scripting`, `debugger`, `nativeMessaging`을 선언한다. 사이트별 선택 host 권한으로 선택된 학생 탭에만 UI를 주입하며 전체 HTTP/HTTPS 자동 주입은 제거했다.
 
-실제 코드는 설치·실행 로그와 기본 사이드바뿐이다. Windows 프로그램, 통신, 가상 키보드, 한글 조합기, 독립 클릭, F9, 시뮬레이션은 아직 없다. 버전 문자열 `1.0.0`은 기능 완성을 의미하지 않는다. 이번 준비 작업에서는 실행 코드와 Manifest를 변경하지 않는다.
+2026-10-07 사용자가 전자칠판·Windows PC를 보유하며 테스트보다 완성 구현을 먼저 지시했다. 이에 비활성 입력 수신 창 후보 B, Native Messaging, 수동 viewport 교정, 세션·긴급 해제, 페이지 키보드·한글 조합을 0.2.0 제품 코드로 연결했다. `.NET 10` win-x64 자체 포함 EXE와 확장앱 ZIP을 생성한다. [INSTALL_WINDOWS](docs/INSTALL_WINDOWS.md)를 따른다. P1a/P1b 실증 없이 후보를 구현한 상태이므로 R1~R6 통과나 사이트 호환 완료로 표시하지 않는다. 기존 [P1A_RUNBOOK](docs/P1A_RUNBOOK.md)과 [TEST](docs/TEST.md)는 후속 검증에 사용한다.
 
 ## 3. v3에서 검증 가설로 바꾸는 부분
 

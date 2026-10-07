@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Whale Dual Input · 학생 시험 페이지</title><link rel="icon" href="data:,"><link rel="stylesheet" href="fixture.css"></head>
+<body><main>
+  <h1>학생 입력 시험 페이지</h1>
+  <p>시험 전 새로고침하세요. 이 창을 화면에 보이게 두고, 교사는 별도 작업 앱에서 입력을 계속합니다.</p>
+  <div class="grid">
+    <section aria-label="클릭과 문자 입력">
+      <h2>클릭·문자</h2>
+      <button id="click">클릭 시험</button> <output id="click-count">0회</output>
+      <label for="input">한 줄 입력</label><input id="input" autocomplete="off" spellcheck="false">
+      <label for="textarea">여러 줄 입력</label><textarea id="textarea" rows="3" spellcheck="false"></textarea>
+      <p><a href="#reference">링크 기본 동작 수동 시험</a></p>
+    </section>
+    <section aria-label="드래그와 스크롤">
+      <h2>드래그·스크롤</h2>
+      <canvas id="drag" width="480" height="140" aria-label="드래그 시험 표면"></canvas>
+      <output id="drag-count">완료된 드래그 0회</output>
+      <div id="scroll" tabindex="0" aria-label="중첩 스크롤 시험 영역"><div class="scroll-content">이 영역 안에서 스크롤합니다.<br>아래로 이동하면 scrollTop 관찰값이 증가합니다.</div></div>
+    </section>
+  </div>
+  <details><summary>이벤트 관찰값</summary><pre id="events"></pre></details>
+  <p id="reference">링크 대상입니다. 링크 시험 후 URL의 #reference를 지우거나 새 탭으로 다시 여세요.</p>
+  <script src="fixture.js"></script>
+</main></body></html>

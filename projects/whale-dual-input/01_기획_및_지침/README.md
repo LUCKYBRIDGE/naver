@@ -36,7 +36,7 @@
    - 파일: [`whale_dual_input_development_plan_v3.md`](whale_dual_input_development_plan_v3.md)
    - 초기 아이디어와 요구 조건을 보존한다. 기술적 보장으로 적힌 내용은 v4의 검증 기준을 우선한다.
 
-현재는 기획 및 기술 검증 준비 단계다. 확장앱 기본 골격만 있으며 Native 제어 프로그램·독립 입력·가상 키보드의 구현과 Whale 실기기 시험은 아직 수행되지 않았다.
+현재는 Windows Native 호스트·터치 수신 창 후보·F9·세션·학생 키보드·한글 입력을 연결한 0.2.0 구현 패키지 단계다. 설치는 [Windows 사용 안내](docs/INSTALL_WINDOWS.md)를 따른다. 사용자 지시에 따라 구현을 먼저 진행했으며 Windows Whale·전자칠판의 실제 입력 보호는 아직 검증하지 않았다. 별도 P1a 도구도 유지한다.
 
 ---
 

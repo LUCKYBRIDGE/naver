@@ -11,7 +11,13 @@ cd naver
 
 현재 작업 프로젝트는 **Whale Dual Input**입니다. 교사 Windows PC에 연결된 전자칠판에서 학생이 웨일을 조작하는 동안 교사의 커서·키보드 포커스·타이핑을 보호하는 기능을 기획하고 있습니다.
 
-현재 단계는 **기획 및 기술 검증 준비**이며 실행 코드는 MV3 확장앱 기본 골격입니다. 독립 입력·Windows 호스트·가상 키보드는 아직 구현되지 않았습니다.
+현재 단계는 **0.2.0 Windows 구현 패키지 작성**입니다. Windows Native 호스트·비활성 터치 수신 창·영역 교정·F9·웨일 사이드바 ON/OFF·CDP 입력 전달·학생 키보드·한글 조합기를 연결했습니다. 사용자 지시에 따라 기능 구현을 먼저 진행했으며 Windows Whale·전자칠판의 실제 입력 보호는 아직 검증하지 않았습니다.
+
+Node.js 24 이상에서 `npm test`, `npm run build`로 검사합니다. `npm run p1a:serve`로 로컬 시험 페이지를 제공하며, 실행 절차는 [P1a 실험 안내](projects/whale-dual-input/01_기획_및_지침/docs/P1A_RUNBOOK.md)를 따릅니다.
+
+Windows 프로그램과 확장앱의 실제 설치는 [Windows 설치·사용 안내](projects/whale-dual-input/01_기획_및_지침/docs/INSTALL_WINDOWS.md)를 따릅니다. `.NET 10 SDK`와 Node.js 24 이상에서 `npm run build:windows`를 실행하면 자체 포함 win-x64 실행 파일과 제품 확장앱을 별도 ZIP으로 생성합니다. 출력 위치는 `projects/whale-dual-input/04_최종_배포_제출/whale-dual-input-0.2.0-<빌드시각>.zip`입니다.
+
+Windows 시험용 ZIP은 [GitHub Releases](https://github.com/LUCKYBRIDGE/naver/releases)에서 받습니다. ZIP 안에 EXE·extension·설치 안내가 포함됩니다. 개발 SDK 없이 받을 수 있습니다. 현재 핵심 입력 분리는 [미해결 사항](projects/whale-dual-input/01_기획_및_지침/docs/INPUT_ENGINE_DECISION.md)이 있어 완성본으로 표시하지 않습니다.
 
 처음 이어받을 때 다음 순서로 읽어 주세요.
 
@@ -20,7 +26,7 @@ cd naver
 3. [구현 준비 및 개발 계획 v4](projects/whale-dual-input/01_기획_및_지침/whale_dual_input_implementation_plan_v4.md)
 4. [실기기 준비 체크리스트](projects/whale-dual-input/01_기획_및_지침/docs/PREPARATION.md)와 [테스트 계획](projects/whale-dual-input/01_기획_및_지침/docs/TEST.md)
 
-기획 문서를 읽는 데 추가 설치는 필요하지 않습니다. 현재 확장앱 골격은 Whale의 `whale://extensions`에서 `projects/whale-dual-input/02_제작_결과물` 폴더를 로드합니다. 원래 기기와 같은 절대 경로로 복제할 필요는 없습니다.
+기획 문서를 읽는 데 추가 설치는 필요하지 않습니다. 제품 확장앱은 패키지의 `extension` 폴더 또는 개발 빌드의 `dist/whale-dual-input/extension`을 로드합니다. Windows 연결 등록과 영역 교정이 필요합니다. 원래 기기와 같은 절대 경로로 복제할 필요는 없습니다.
 
 작업 전 `git pull --ff-only`로 최신 변경을 받습니다. 작업을 마치면 변경 사항을 커밋하고 `git push`한 뒤 다른 기기에서 이어갑니다.
 
@@ -68,7 +74,7 @@ node scripts/create-project.mjs my-tool "웨일 클래스 과제 도우미"
 생성 직후:
 1. `01_기획_및_지침/기획의도_A4_1페이지.md`에서 기획 내용을 작성합니다.
 2. `02_제작_결과물/` 폴더를 웨일 브라우저(`whale://extensions`)의 [압축해제된 확장앱 로드]로 열어 즉시 실행 및 개발합니다.
-3. 작업이 끝나면 `node scripts/package-project.mjs my-tool`을 실행하여 제출용 ZIP을 1초 만에 생성합니다.
+3. 작업이 끝나면 `node scripts/package-project.mjs my-tool`을 실행하여 제출용 ZIP을 생성합니다. Whale Dual Input은 실험 소스를 제외하고 Windows 호스트와 제품 확장앱을 분리하는 `npm run build:windows`를 사용합니다.
 
 ---
 

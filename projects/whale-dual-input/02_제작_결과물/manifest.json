@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "웨일스페이스 웨일 듀얼 인풋",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "웨일 듀얼 인풋 - 웨일스페이스 교육용 확장 프로그램",
   "icons": {
     "16": "icons/icon-16.png",
@@ -22,19 +22,10 @@
     "default_title": "웨일 듀얼 인풋"
   },
   "permissions": [
-    "storage",
-    "activeTab"
+    "activeTab",
+    "scripting",
+    "debugger",
+    "nativeMessaging"
   ],
-  "content_scripts": [
-    {
-      "matches": [
-        "https://*/*",
-        "http://*/*"
-      ],
-      "js": [
-        "content/content-script.js"
-      ],
-      "run_at": "document_idle"
-    }
-  ]
+  "optional_host_permissions": ["https://*/*", "http://*/*"]
 }

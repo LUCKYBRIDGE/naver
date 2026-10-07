@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>P1a 시험 제어</title><link rel="stylesheet" href="panel.css"></head>
+<body><main>
+  <h1>P1a 입력 전달 시험</h1>
+  <p>로컬 시험 페이지를 별도 웨일 창에 표시하세요. 실행 후 5초 안에 교사 작업 앱으로 이동해 타이핑을 계속하세요.</p>
+  <p><strong>이 도구는 Windows 커서·포커스를 측정하지 않습니다.</strong> 페이지 관찰값과 실기기 기록을 함께 판정해야 합니다.</p>
+  <label for="target">학생 시험 탭</label><select id="target"></select>
+  <div class="actions"><button id="refresh">탭 목록 새로고침</button><button id="run">5초 뒤 시험 실행</button><button id="stop">중단</button><button id="status">결과 확인</button></div>
+  <p>각 시험 전에 시험 페이지를 새로고침하세요. 시험 중 창 크기·배율·페이지 위치를 바꾸면 중단됩니다.</p>
+  <pre id="result" aria-live="polite">대기 중</pre>
+  <script type="module" src="panel.js"></script>
+</main></body></html>

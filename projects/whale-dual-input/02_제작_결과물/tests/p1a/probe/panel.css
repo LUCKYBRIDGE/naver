@@ -1,0 +1,7 @@
+body { margin: 0; font: 16px/1.6 system-ui, sans-serif; color: #172c3b; background: #f3f6f8; }
+main { max-width: 850px; margin: 32px auto; padding: 24px; }
+label { display: block; font-weight: 700; }
+button, select { min-height: 44px; font: inherit; padding: 8px 14px; }
+select { width: 100%; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; background: white; padding: 16px; border: 1px solid #bbcbd5; }

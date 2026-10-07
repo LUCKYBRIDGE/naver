@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Whale Dual Input P1a 실험 도구",
+  "version": "0.1.0",
+  "description": "로컬 시험 탭의 CDP 입력 전달을 관찰하는 개발 전용 도구",
+  "permissions": ["debugger"],
+  "host_permissions": ["http://127.0.0.1/*"],
+  "background": { "service_worker": "worker.js", "type": "module" },
+  "action": { "default_title": "P1a 시험 제어 화면 열기" }
+}
