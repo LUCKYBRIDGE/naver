@@ -7,7 +7,7 @@ import { homedir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const localSdk = join(homedir(), '.local/share/naver-dotnet/dotnet');
+const localSdk = join(homedir(), '.local/share/naver-dotnet', process.platform === 'win32' ? 'dotnet.exe' : 'dotnet');
 const dotnet = process.env.DOTNET_EXE || (existsSync(localSdk) ? localSdk : 'dotnet');
 const cache = process.platform === 'win32' ? join(process.env.LOCALAPPDATA || homedir(), 'WhaleDualInputBuild') : join(homedir(), 'Library/Caches/naver-native');
 const output = resolve(root, 'dist/whale-dual-input/windows');
