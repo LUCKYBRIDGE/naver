@@ -1,3 +1,5 @@
+> 2026-10-08 최신 준비 결과·환경·순서는 [DEVELOPMENT_PREPARATION_V1_1](DEVELOPMENT_PREPARATION_V1_1.md)과 [INSTALLATION_FEASIBILITY](INSTALLATION_FEASIBILITY.md)를 따른다. 아래는 2026-10-07 관찰/계획 이력이며 당시 Git·Whale·SDK 미확인은 현재 상태가 아니다.
+
 # 구현 준비 체크리스트
 
 작성일: 2026-10-07. 기준 계획: [구현 계획 v4](../whale_dual_input_implementation_plan_v4.md).

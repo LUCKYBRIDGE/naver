@@ -1,3 +1,5 @@
+> 2026-10-08 최신 사용자 흐름은 [UI_ON_OFF_SPEC_V1_1](UI_ON_OFF_SPEC_V1_1.md)과 [IMPLEMENTATION_SCOPE](IMPLEMENTATION_SCOPE.md)를 따른다. 아래 수동 교정·재선택·복제 모드·연결 끊김 즉시 OFF는 과거 계획이며 새 제품 UX 기준이 아니다.
+
 # 사용 흐름 계획
 
 작성일: 2026-10-07. 상태: 설계, UI 구현 전.

@@ -1,3 +1,5 @@
+> 이 문서는 기존 v0.2.0 시험 패키지 안내다. 2026-10-08 새 계획의 자동 장치 매핑·원본 터치 격리가 구현됐다는 뜻이 아니다. 개발 준비와 설치 게이트는 [DEVELOPMENT_PREPARATION_V1_1](DEVELOPMENT_PREPARATION_V1_1.md), [INSTALLATION_FEASIBILITY](INSTALLATION_FEASIBILITY.md)를 따른다.
+
 # Whale Dual Input 0.2.0 설치·사용
 
 이 패키지는 Windows 제어 프로그램과 웨일 확장앱을 연결한 구현 결과물이다. 실제 Windows·전자칠판 동작 검증은 구현 이후 수행할 예정이다. 기본 대상은 Windows 10/11 x64, NAVER Whale, HDMI/USB 전자칠판이다.

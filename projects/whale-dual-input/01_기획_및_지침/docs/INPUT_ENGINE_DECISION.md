@@ -1,3 +1,5 @@
+> 2026-10-08 최신 기술 방향은 [ARCHITECTURE_V7_3_MONITOR2](ARCHITECTURE_V7_3_MONITOR2.md), 현재 개발 PC는 [INSTALLATION_FEASIBILITY](INSTALLATION_FEASIBILITY.md)를 따른다. 아래 macOS 접근 한계는 당시 이력이다. 기존 오버레이는 새 원본 격리 엔진으로 채택하지 않는다.
+
 # 독립 입력 엔진의 현재 판단
 
 2026-10-07. 상태: 핵심 입력 분리 미완성. 0.2.0 ZIP은 통합 코드 빌드 산출물이며 완성본이 아니다.

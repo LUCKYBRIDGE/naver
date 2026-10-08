@@ -1,5 +1,7 @@
 # 다른 기기에서 이어받기
 
+> **2026-10-08 최신 인계:** [개발 준비 v1.1](DEVELOPMENT_PREPARATION_V1_1.md) → [아키텍처 v7.3](ARCHITECTURE_V7_3_MONITOR2.md) → [실행계획](DEVELOPMENT_PLAN_V1_WHALE_MONITOR2.md)를 먼저 읽는다. 아래 2026-10-07 기록·v4·수동 교정 결정은 보존된 과거 이력이다. 현재 사용자 요청은 새 계획 확인 및 개발 준비이며, 과거의 '오류를 수정하지 말고 GitHub에 올린다' 지시를 이번 작업 지시로 재사용하지 않는다. 이번 세션 결과는 문서 끝에 추가했다.
+
 작성일: 2026-10-07. 현재 단계: 0.2.0 통합 구현 진행, 핵심 Windows 입력 분리 미완성.
 
 ## 최신 사용자 지시 — 다음 기기에서 가장 먼저 읽기
@@ -105,3 +107,21 @@ git push
 로컬 변경이 있거나 pull 충돌이 나면 내용을 먼저 보존·확인한다. force push나 reset으로 다른 기기 작업을 덮어쓰지 않는다. 비밀키·환경 파일·학생 데이터는 저장소에 넣지 않는다.
 
 다음 에이전트에게는 이 문서 상단의 **다음 기기에 전달할 요청문**을 전달한다. 아래에 보존된 기존 구현 결정과 v4는 최신 사용자 지시에 맞춰 재검토한다.
+
+## 2026-10-08 개발 준비 v1.1 세션
+
+- 기준선: `main` / `a5f0d23dae251d2ccb57494001c3b40b73241b56`. 로컬 변경만 수행, 커밋·push 없음. 제공 인계 폴더와 기존 untracked ARCHITECTURE_V5.md 보존.
+- 문서: 최신 기술 원문 2개를 SHA-256 일치로 복사, UI/design/tasks/QA 4개 연결본 생성. [준비 현황](DEVELOPMENT_PREPARATION_V1_1.md), [범위·충돌 결정](IMPLEMENTATION_SCOPE.md), [파일별 점검](CODE_REUSE_AUDIT.md), [UIAccess 판단](UIACCESS_POLICY_DECISION.md), [설치 여건](INSTALLATION_FEASIBILITY.md), [공식 자료](RESEARCH_REFERENCES.md) 작성. 프로젝트 AGENTS와 진입 문서를 갱신했다.
+- 구현 변경: 제품 기능·Manifest는 변경하지 않았다. `scripts/build-windows.mjs`의 사용자 로컬 SDK 탐색이 Windows의 dotnet.exe를 찾도록 수정했다.
+- 환경: Node v24.15.0, npm 11.12.1. 시스템 .NET SDK 8.0.424는 유지하고 `%USERPROFILE%\.local\share\naver-dotnet`에 10.0.401 준비. dotnet.exe Microsoft 서명 Valid·실행 확인. Whale 실행 파일 5.39.412.57 확인, 브라우저 시험 미수행.
+- 화면 관측: Windows.Forms가 DISPLAY2 primary 1920×1080 (0,0), DISPLAY3 1920×1080 (1920,0)를 반환했다. Windows 표시 번호·전자칠판 장치 매핑과 동일하다고 가정하지 않는다.
+- 검사: `npm test` 14개 PASS/0개 FAIL/종료 코드 0. `npm run build:windows` 종료 코드 0(내부 JS/MV3 제품·프로브 분리 빌드, .NET win-x64 자체 포함 publish 및 ZIP 생성 포함).
+- 문서 검사: 22개 문서의 로컬 Markdown 참조 101개 정상, 기술 원문/사본 4개 SHA-256 일치, `git diff --check` 통과. 제품 소스 경로의 Git diff는 비어 있다.
+- 생성 패키지: `04_최종_배포_제출/whale-dual-input-0.2.0-20261008-074003.zip`. 기존 v0.2.0 기준선 빌드이며 새 원본 격리·자동 매핑 구현/검증 패키지가 아니다. EXE를 실행하거나 Native 등록하지 않았다.
+- 실제 칠판 시험: 미수행. **G1 NOT TESTED / G2 NOT TESTED**. 기존 ON 직후 OFF 현상은 재현·수정하지 않았다. 자동 검사 PASS가 Native 교사 보호 또는 실제 Whale 호환을 뜻하지 않는다.
+- 남은 장애: UIAccess 목적·서명·학교 설치 조건 미확인, 실제 포인터 타입·장치 매핑 미확인, 새 Probe·ProtectionStateManager·자동 어댑터 미구현. 기존 ACTIVE 표시와 OFF 추정은 최신 보호 증거 계약을 충족하지 않는다.
+- 다음 작업: codex/ 구현 브랜치에서 관찰 전용 WhaleDualInput.Probe(T-010/011)를 구현한다. M0.4 정책/설치 조사를 함께 진행하고 M1 자동 매핑·M4a 실제 Whale 최소 실험을 준비한다. Tier 선택 및 C2 소비 전용 PoC 뒤 실제 G1을 판단한다.
+
+### 후속 GitHub 반영 요청
+
+2026-10-08 사용자가 준비 완료 후 GitHub 저장소 반영을 요청했다. `origin/main`과 준비 기준선의 일치를 fetch로 확인했다. 제공 인계 v1.1 원본·준비 문서·진입 지침과 Windows 로컬 SDK 탐색 수정을 반영 대상으로 한다. 문서 준비와 빌드 도구 수정은 별도 커밋으로 구분한다. 준비 전부터 존재한 미추적 `ARCHITECTURE_V5.md`는 이번 반영에 포함하지 않고 로컬에 보존한다. SDK·EXE·ZIP은 로컬 산출물이며 소스 커밋에 넣지 않는다. 실제 G1/G2 미검증 상태는 그대로다.

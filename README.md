@@ -11,7 +11,7 @@ cd naver
 
 현재 작업 프로젝트는 **Whale Dual Input**입니다. 교사 Windows PC에 연결된 전자칠판에서 학생이 웨일을 조작하는 동안 교사의 커서·키보드 포커스·타이핑을 보호하는 기능을 기획하고 있습니다.
 
-현재 단계는 **0.2.0 Windows 구현 패키지 작성**입니다. Windows Native 호스트·비활성 터치 수신 창·영역 교정·F9·웨일 사이드바 ON/OFF·CDP 입력 전달·학생 키보드·한글 조합기를 연결했습니다. 사용자 지시에 따라 기능 구현을 먼저 진행했으며 Windows Whale·전자칠판의 실제 입력 보호는 아직 검증하지 않았습니다.
+현재 단계는 **2026-10-08 개편 계획 v1.1의 개발 준비 완료, 기능 개편 착수 전**입니다. 최신 목표는 화면 확장 모드에서 모니터 2의 전자칠판 터치 원본을 자동 식별·격리하고 Whale 웹 콘텐츠에 전달하는 것입니다. 수동 영역 교정과 사이트별 주소 등록을 일상 사용에서 없앱니다. [개발 준비 현황·다음 구현 과제](projects/whale-dual-input/01_기획_및_지침/docs/DEVELOPMENT_PREPARATION_V1_1.md)부터 읽으세요. 현재 v0.2.0 코드는 재사용 기준선이며 실제 입력 보호(G1)와 물리 터치 웹 동작(G2)은 이번 준비에서 검증하지 않았습니다.
 
 Node.js 24 이상에서 `npm test`, `npm run build`로 검사합니다. `npm run p1a:serve`로 로컬 시험 페이지를 제공하며, 실행 절차는 [P1a 실험 안내](projects/whale-dual-input/01_기획_및_지침/docs/P1A_RUNBOOK.md)를 따릅니다.
 
@@ -22,11 +22,11 @@ Windows 시험용 ZIP은 [GitHub Releases](https://github.com/LUCKYBRIDGE/naver/
 처음 이어받을 때 다음 순서로 읽어 주세요.
 
 1. [루트 개발 지침](AGENTS.md)
-2. [작업 인계와 첫 구현 과제](projects/whale-dual-input/01_기획_및_지침/docs/HANDOFF.md)
-3. [구현 준비 및 개발 계획 v4](projects/whale-dual-input/01_기획_및_지침/whale_dual_input_implementation_plan_v4.md)
-4. [실기기 준비 체크리스트](projects/whale-dual-input/01_기획_및_지침/docs/PREPARATION.md)와 [테스트 계획](projects/whale-dual-input/01_기획_및_지침/docs/TEST.md)
+2. [프로젝트 최신 지침](projects/whale-dual-input/AGENTS.md)과 [개발 준비 현황](projects/whale-dual-input/01_기획_및_지침/docs/DEVELOPMENT_PREPARATION_V1_1.md)
+3. [아키텍처 v7.3](projects/whale-dual-input/01_기획_및_지침/docs/ARCHITECTURE_V7_3_MONITOR2.md)와 [최신 실행계획](projects/whale-dual-input/01_기획_및_지침/docs/DEVELOPMENT_PLAN_V1_WHALE_MONITOR2.md)
+4. [작업 인계·과거 실패 기록](projects/whale-dual-input/01_기획_및_지침/docs/HANDOFF.md)과 [최신 판정 시험](projects/whale-dual-input/01_기획_및_지침/docs/ACCEPTANCE_TESTS_V1_1.md)
 
-기획 문서를 읽는 데 추가 설치는 필요하지 않습니다. 제품 확장앱은 패키지의 `extension` 폴더 또는 개발 빌드의 `dist/whale-dual-input/extension`을 로드합니다. Windows 연결 등록과 영역 교정이 필요합니다. 원래 기기와 같은 절대 경로로 복제할 필요는 없습니다.
+기획 문서를 읽는 데 추가 설치는 필요하지 않습니다. 현재 v0.2.0 확장앱은 패키지의 `extension` 폴더 또는 개발 빌드의 `dist/whale-dual-input/extension`을 로드합니다. 이 과거 구현에는 Windows 연결 등록과 영역 교정이 남아 있어 최신 UX를 충족하지 않습니다. 원래 기기와 같은 절대 경로로 복제할 필요는 없습니다. 이번 Windows 개발 PC에는 사용자 로컬 .NET 10 SDK를 준비했으며 `build:windows`가 자동으로 찾아 사용합니다. 다른 PC에서는 .NET 10을 별도로 준비해야 합니다.
 
 작업 전 `git pull --ff-only`로 최신 변경을 받습니다. 작업을 마치면 변경 사항을 커밋하고 `git push`한 뒤 다른 기기에서 이어갑니다.
 

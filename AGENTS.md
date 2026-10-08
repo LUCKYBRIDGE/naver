@@ -8,6 +8,8 @@
 
 ## 현재 검증 명령
 
+- Whale Dual Input의 2026-10-08 개편 기준은 `projects/whale-dual-input/AGENTS.md`와 `01_기획_및_지침/docs/DEVELOPMENT_PREPARATION_V1_1.md`를 따른다. 기존 v4·수동 영역·오버레이 방식은 이력으로 보존하고 최신 G1 원본 격리 기준을 우선한다. 이 항목은 다른 프로젝트의 범위를 변경하지 않는다.
+
 - 프로젝트 상태: `incubating` (Whale Dual Input 기술 실험 단계).
 - Node.js 24 이상. 일반 검사에 외부 npm 의존성 설치는 필요 없다.
 - `npm test`: P1a 입력 프로브·Worker·로컬 서버의 단위/경계 검사.
