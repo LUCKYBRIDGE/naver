@@ -8,6 +8,7 @@
   "scripts": {
     "build": "node scripts/build-p1a.mjs",
     "build:windows": "node scripts/build-windows.mjs",
+    "build:input-probe": "node scripts/build-input-probe.mjs",
     "test": "node --test projects/whale-dual-input/02_제작_결과물/tests/p1a/*.test.js",
     "p1a:serve": "node projects/whale-dual-input/02_제작_결과물/tests/p1a/server.mjs",
     "create-project": "node scripts/create-project.mjs",

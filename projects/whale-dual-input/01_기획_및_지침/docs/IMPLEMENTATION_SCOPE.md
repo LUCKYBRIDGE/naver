@@ -1,5 +1,9 @@
 # v1.1 구현 범위와 준비 단계 결정
 
+> 2026-10-13 최신 사용자 변경: ON 중 교사의 모니터 2 입력 제한을 허용하고 모니터 1 작업·ON/OFF를 우선한다. 변경 범위·기술 후보·시험은 [ADR_MONITOR1_PROTECTION_MODE](ADR_MONITOR1_PROTECTION_MODE.md)를 따른다. 아래는 원본 v7.3 적용 당시의 범위 기록이다.
+
+> 구현 상태: [Windows 연구 도구](INPUT_PROBE_RUNBOOK.md)와 [M0.5 관찰 결과](M0_5_MEASUREMENT.md)를 추가했다. 학생 논리 채널은 팝업의 매핑된 직접 포인터를 연구용으로 처리한다. 최종 범위는 팝업 밖을 포함한 칠판 장치 전체의 원본 입력 차단과 Whale 전달이다. 현재 G1/G2는 NOT TESTED다.
+
 2026-10-08. 상태: 요구사항·구현 경계 확정, 제품 기능 개편 전. [인계 패키지](../../../Whale_Dual_Input_Development_Handoff_v1_1/README_START_HERE.md), [아키텍처](ARCHITECTURE_V7_3_MONITOR2.md), [실행계획](DEVELOPMENT_PLAN_V1_WHALE_MONITOR2.md)를 기준으로 한다.
 
 ## 문제와 확장앱의 역할

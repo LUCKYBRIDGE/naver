@@ -11,6 +11,10 @@ cd naver
 
 현재 작업 프로젝트는 **Whale Dual Input**입니다. 교사 Windows PC에 연결된 전자칠판에서 학생이 웨일을 조작하는 동안 교사의 커서·키보드 포커스·타이핑을 보호하는 기능을 기획하고 있습니다.
 
+**2026-10-13 요구 변경:** 독립 입력 ON 중 교사의 모니터 2 조작을 제한해도 됩니다. 교사는 모니터 1에서 작업하고 ON/OFF·비상 해제를 사용할 수 있어야 합니다. 최신 기준은 [모니터 1 보호 모드 ADR](projects/whale-dual-input/01_기획_및_지침/docs/ADR_MONITOR1_PROTECTION_MODE.md)을 따릅니다. 이 보호 모드는 아직 구현·실기기 검증 전입니다.
+
+**2026-10-13 개발 착수:** `npm run build:input-probe`로 별도 Windows 입력 연구 도구를 만들 수 있습니다. 장치/화면 조회·입력 관찰·학생 접촉 채널·마우스 차단 후보를 구현했습니다. [사용 안내](projects/whale-dual-input/01_기획_및_지침/docs/INPUT_PROBE_RUNBOOK.md), [사용자 칠판 첫 관찰](projects/whale-dual-input/01_기획_및_지침/docs/M0_5_MEASUREMENT.md)을 확인하세요. 관찰은 터치를 차단하지 않으며 전체 원본 격리와 Whale 연결은 미완료입니다. 아래 준비 단계 설명은 2026-10-08 이력입니다.
+
 현재 단계는 **2026-10-08 개편 계획 v1.1의 개발 준비 완료, 기능 개편 착수 전**입니다. 최신 목표는 화면 확장 모드에서 모니터 2의 전자칠판 터치 원본을 자동 식별·격리하고 Whale 웹 콘텐츠에 전달하는 것입니다. 수동 영역 교정과 사이트별 주소 등록을 일상 사용에서 없앱니다. [개발 준비 현황·다음 구현 과제](projects/whale-dual-input/01_기획_및_지침/docs/DEVELOPMENT_PREPARATION_V1_1.md)부터 읽으세요. 현재 v0.2.0 코드는 재사용 기준선이며 실제 입력 보호(G1)와 물리 터치 웹 동작(G2)은 이번 준비에서 검증하지 않았습니다.
 
 Node.js 24 이상에서 `npm test`, `npm run build`로 검사합니다. `npm run p1a:serve`로 로컬 시험 페이지를 제공하며, 실행 절차는 [P1a 실험 안내](projects/whale-dual-input/01_기획_및_지침/docs/P1A_RUNBOOK.md)를 따릅니다.

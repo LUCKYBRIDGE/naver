@@ -2,6 +2,16 @@
 
 # 기술 검증 및 합격 기준
 
+## 2026-10-13 입력 연구 도구 구현/관찰
+
+- `npm run build:input-probe`: .NET 10 win-x64 자체 포함 publish 통과.
+- `WhaleDualInput.Probe.exe --self-test`: 40개 정책·좌표·ABI·접촉·큐 혼잡·장치 알림 경계 검사 통과.
+- `WhaleDualInput.Probe.exe --smoke-observe`: 1.2초 읽기 전용 관찰 등록/샘플링/관찰 훅/해제 통과. 차단·커서 제한 실행 없음.
+- `npm test`: 기존 P1a 14개 통과. `npm run build`: JS/MV3 검사·제품/프로브 분리 출력 통과.
+- GUI: OFF·진단 표시를 Windows UI로 확인. 사용자 관찰 세션의 직접 터치·학생 채널 카운터와 납치 보고는 [M0_5_MEASUREMENT](M0_5_MEASUREMENT.md)에 기록했다. 관찰 시작 거부와 초기 장치 알림 즉시 종료 문제를 수정하고 회귀 조건을 추가했다.
+- 실제 시험 범위: 사용자가 혼자 칠판을 터치한 관찰. 교사 동시 물리 타이핑·정식 G1 시나리오·차단 ON·Whale 통합 입력·F9 물리 해제는 미실행. **G1/G2 NOT TESTED**.
+- 최종 보호 검사는 [모니터 1 ADR](ADR_MONITOR1_PROTECTION_MODE.md)의 M1P 항목과 기존 G1/G2 조건을 함께 따른다. 팝업 안의 직접 포인터 처리만으로 전체 화면 차단 성공으로 판정하지 않는다.
+
 작성일: 2026-10-07. 상태: P1a 도구 및 자동 검사 구현, Windows Whale·터치 실기기 시험 미실시.
 
 ## 1. 검증 순서
