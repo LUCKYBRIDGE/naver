@@ -2,6 +2,10 @@
 
 # 기술 검증 및 합격 기준
 
+## 2026-10-14 상태 코어 검사
+
+Probe의 self-test에 Native 보호 상태 결함 주입 검사 30개를 추가했다. 증거/하드웨어 미확인·stale 응답·TTL·disconnect·STOP/PAUSE ACK·timeout·재개·격리 epoch를 검사한다. 합성 입력만 사용하며 원본 입력 차단이나 실제 G1/G2를 검증하지 않는다. [상태 계약](PROTECTION_STATE_CONTRACT.md)
+
 ## 2026-10-13 입력 연구 도구 구현/관찰
 
 - `npm run build:input-probe`: .NET 10 win-x64 자체 포함 publish 통과.

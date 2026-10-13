@@ -9,4 +9,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyName>WhaleDualInput.Probe</AssemblyName>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../WhaleDualInput.Core/ProtectionStateManager.cs" Link="Core/ProtectionStateManager.cs" />
+  </ItemGroup>
 </Project>

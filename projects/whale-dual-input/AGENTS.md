@@ -8,6 +8,8 @@
 
 ## 먼저 읽기
 
+2026-10-14 [Native 보호 상태 계약](01_기획_및_지침/docs/PROTECTION_STATE_CONTRACT.md)을 추가했다. 순수 상태 코어이며 물리 격리 backend/제품 Worker에 연결 전이다. 합성 증거를 실제 ACTIVE 발급에 쓰지 않는다.
+
 1. [개발 준비 현황과 다음 작업](01_기획_및_지침/docs/DEVELOPMENT_PREPARATION_V1_1.md)
 2. [기술 아키텍처 v7.3](01_기획_및_지침/docs/ARCHITECTURE_V7_3_MONITOR2.md)
 3. [실행계획 v1.0](01_기획_및_지침/docs/DEVELOPMENT_PLAN_V1_WHALE_MONITOR2.md)

@@ -1,5 +1,7 @@
 # 다른 기기에서 이어받기
 
+> 2026-10-14: 다른 로컬 작업 없이 이 저장소에서 개발을 재개했다. [Native 보호 상태 계약](PROTECTION_STATE_CONTRACT.md)과 아래 최신 세션을 참조한다.
+
 > **2026-10-13 사용자 변경:** ON 중 교사의 모니터 2 조작 제한을 허용하고 모니터 1 작업·ON/OFF·비상 해제를 우선한다. [최신 모드 ADR](ADR_MONITOR1_PROTECTION_MODE.md)이 기존 '교사 마우스 두 화면 자유 사용' 조건에 우선한다.
 
 > **2026-10-08 최신 인계:** [개발 준비 v1.1](DEVELOPMENT_PREPARATION_V1_1.md) → [아키텍처 v7.3](ARCHITECTURE_V7_3_MONITOR2.md) → [실행계획](DEVELOPMENT_PLAN_V1_WHALE_MONITOR2.md)를 먼저 읽는다. 아래 2026-10-07 기록·v4·수동 교정 결정은 보존된 과거 이력이다. 현재 사용자 요청은 새 계획 확인 및 개발 준비이며, 과거의 '오류를 수정하지 말고 GitHub에 올린다' 지시를 이번 작업 지시로 재사용하지 않는다. 이번 세션 결과는 문서 끝에 추가했다.
@@ -150,3 +152,12 @@ git push
 - 현 상태: C1/Probe 및 C3 연구 채널 부분 구현. C2 장치 전체 격리·C4 Whale 통합 미완료. 기존 v0.2.0 Native는 새 격리 증거 발급자로 사용하지 않는다. **G1/G2 NOT TESTED**. 차단 후보 ON은 이번 실기기 세션에서 실행하지 않았다.
 - 다음: 보조 화면의 복수 출력과 다른 터치 장치 구성을 확정하고 원본 차단 경로를 선택한다. 전체 칠판 입력 수신·차단을 검증한 뒤 Native 상태 계약/Worker/CDP 통합을 진행한다. 단순 팝업 수신·가상 커서 표시를 전체 입력 격리로 보고하지 않는다.
 - 최종 문서 검사: 로컬 참조 110개 정상, 원본 기술 문서 2종/복사본 SHA-256 유지, git diff --check 통과. 최신 GUI에서 '관찰은 차단하지 않음'·팝업 안/밖 범위·현재 차단 버튼 비활성을 확인했다. 최종 창은 OFF로 열어 두었으며 추가 터치 관찰은 필요 없다고 사용자에게 안내했다.
+
+## 2026-10-14 Native 보호 상태 코어
+
+- 시작 HEAD 08d30c6, 작업 브랜치 codex/protection-state-manager. 기존 미추적 ARCHITECTURE_V5.md 보존.
+- Native Core에 8상태 관리자를 구현했다. 요청 ID·operation epoch·revision·instance ID, 중복/늦은 응답, 증거 만료/연결 불명, 해제 ACK/timeout, STOP 우선 정리, PAUSE/RESUME 선행 확인을 처리한다.
+- Probe self-test에 결함 주입 검사를 연결했다. 상태 코어의 코드만 링크 컴파일하며 실제 관찰/차단 엔진은 VERIFIED 증거를 주지 않는다. 제품 확장/Host의 입력 경로와 Manifest는 변경하지 않았다.
+- 구현 범위/남은 연결은 PROTECTION_STATE_CONTRACT.md에 기록했다. 물리 격리 backend·Bridge 메시지 계약·Worker 및 접촉 취소 연결은 후속이다.
+- 실제 칠판·Whale 보호 시험 미실행. G1/G2 NOT TESTED. 운영 보호 성공을 주장하지 않는다.
+- 실행 검사: npm run build:input-probe 및 self-test(기존 40 + 상태 30) 통과, npm test 14개·npm run build·git diff --check 통과. 읽기 전용 snapshot은 이전과 동일하게 주 출력 경로 1/보조 경로 2, DISPLAY_CLONE_DETECTED를 반환했다. 차단·커서 제한·브라우저 입력 시험은 실행하지 않았다.

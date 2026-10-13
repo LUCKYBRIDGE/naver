@@ -98,6 +98,7 @@ internal static class SelfTest
         seat.Accept("pointer-1", 2, "touch", "down", new(5, 5));
         for (var i = 0; i < StudentSeat.Capacity; i++) seat.Accept("pointer-1", 2, "touch", "move", new(5, 5));
         Check(seat.Overflows == 1 && seat.ContactCount == 0 && seat.Drain().All(e => e.Phase == "cancel"), "queue overload invalidates pending contacts");
-        Console.WriteLine($"Native policy/ABI tests OK: {checkedCount}; hardware G1/G2 NOT TESTED"); return 0;
+        Console.WriteLine($"Native policy/ABI tests OK: {checkedCount}; hardware G1/G2 NOT TESTED");
+        ProtectionTests.Run(); return 0;
     }
 }
