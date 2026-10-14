@@ -10,6 +10,8 @@
 
 2026-10-14 [Native 보호 상태 계약](01_기획_및_지침/docs/PROTECTION_STATE_CONTRACT.md)을 추가했다. 순수 상태 코어이며 물리 격리 backend/제품 Worker에 연결 전이다. 합성 증거를 실제 ACTIVE 발급에 쓰지 않는다.
 
+2026-10-14 [Tier A 원본 소비 backend](01_기획_및_지침/docs/ISOLATION_A_IMPLEMENTATION.md)를 구현해 연구용 등록/해제 결과만 상태 코어에 연결했다. 제품 Worker·Whale 전달은 미연결이다. `build:isolation-research`는 서명되지 않은 uiAccess=true 연구 빌드만 생성하고 설치/실행하지 않는다. 정책 적합성·서명·보호 위치·실제 토큰·장치 매핑 전에는 활성화하지 않는다. 등록 성공만으로 G1 PASS/ACTIVE를 발급하지 않는다.
+
 1. [개발 준비 현황과 다음 작업](01_기획_및_지침/docs/DEVELOPMENT_PREPARATION_V1_1.md)
 2. [기술 아키텍처 v7.3](01_기획_및_지침/docs/ARCHITECTURE_V7_3_MONITOR2.md)
 3. [실행계획 v1.0](01_기획_및_지침/docs/DEVELOPMENT_PLAN_V1_WHALE_MONITOR2.md)

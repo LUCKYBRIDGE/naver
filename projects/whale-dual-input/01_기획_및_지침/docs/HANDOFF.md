@@ -161,3 +161,14 @@ git push
 - 구현 범위/남은 연결은 PROTECTION_STATE_CONTRACT.md에 기록했다. 물리 격리 backend·Bridge 메시지 계약·Worker 및 접촉 취소 연결은 후속이다.
 - 실제 칠판·Whale 보호 시험 미실행. G1/G2 NOT TESTED. 운영 보호 성공을 주장하지 않는다.
 - 실행 검사: npm run build:input-probe 및 self-test(기존 40 + 상태 30) 통과, npm test 14개·npm run build·git diff --check 통과. 읽기 전용 snapshot은 이전과 동일하게 주 출력 경로 1/보조 경로 2, DISPLAY_CLONE_DETECTED를 반환했다. 차단·커서 제한·브라우저 입력 시험은 실행하지 않았다.
+
+## 2026-10-14 원본 터치 소비 엔진 구현
+
+- 사용자 요청으로 구현을 계속했다. 작업 브랜치 codex/protection-state-manager, 이전 상태 코어 커밋 fca52e3을 기반으로 한다.
+- 신규 backend PointerIsolationExperiment/PointerIsolationNative, Core PointerRegistration을 구현했다. 전용 STA·message-only 창에서 RegisterPointerInputTarget(PT_TOUCH/PT_PEN)을 호출하고 직접 입력을 소비한다. 큐 256개, 등록 부분 실패 rollback, F9/모니터 1 OFF/30초/UI heartbeat/장치 변경 종료를 처리한다. 재주입·커서 복원·투명 오버레이가 아니다.
+- 실제 TokenUIAccess·재조회 sourceDevice/매핑을 확인하며 PT_MOUSE·다른 터치·복제 구성을 거절한다. 일반 Probe에 원본 격리 연구 버튼과 자격 사유를 연결했다. 등록/해제 응답은 상태 코어에 EXPERIMENTAL/NONE으로 전달하며 ACTIVE를 발급하지 않는다.
+- uiAccess=true의 별도 Isolation.A 프로젝트·build:isolation-research 명령을 추가했다. 연구 출력은 제품 ZIP/extension과 분리하며 서명·설치·실행을 자동화하지 않았다.
+- 실행 결과: build:input-probe 및 build:isolation-research 통과. 일반 Probe self-test: 기존 40 + 상태 30 + 등록 lifecycle 19 = 89개 통과. --isolation-capabilities는 uiAccess=false, UIACCESS_REQUIRED, DISPLAY_CLONE_DETECTED, registrationAttempted=false 반환.
+- 추가 검사: npm test 14개·npm run build·수동 입력 없는 passive smoke-observe·로컬 문서 참조 49개·git diff --check 통과. 원본 기술 문서 2종 SHA-256 유지. 이 검사들은 실제 터치 차단 성공을 증명하지 않는다.
+- 실제 등록/소비·G1/G2·Whale 시험: 미실행. 이유는 서명/보호 위치/UIAccess 정책 게이트 및 현재 복제/다른 터치 구성 미해결. 서명되지 않은 연구 EXE를 실행하거나 보안 정책을 우회하지 않았다. 드라이버·레지스트리·Manifest 권한 변경 없음.
+- 제한: 타입 전체 Tier A이며 장치별 필터가 아니다. 독립 프로세스 watchdog/인증 IPC·history/프레임·물리 G1·학생 웹 통합은 후속이다. [구현/실행 계약](ISOLATION_A_IMPLEMENTATION.md)을 먼저 읽는다.

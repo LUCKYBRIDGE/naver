@@ -14,8 +14,17 @@ internal static class Program
         {
             var log = new ObservationLog(); Console.WriteLine(Report.Serialize(DisplayDiscovery.Read(log), log)); return 0;
         }
+        if (args.SequenceEqual(["--isolation-capabilities"]))
+        {
+            var log = new ObservationLog(); var inventory = DisplayDiscovery.Read(log);
+            var uiAccess = PointerIsolationNative.HasUiAccess();
+            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(new { uiAccess,
+                eligibility = DisplayDiscovery.IsolationEligibility(inventory, uiAccess), inventoryErrors = inventory.Errors,
+                hardwareVerified = false, registrationAttempted = false, isolationEvidence = "NONE" }));
+            return 0;
+        }
         if (args.SequenceEqual(["--smoke-observe"])) return SmokeObserve();
-        if (args.Length != 0) { Console.Error.WriteLine("Usage: WhaleDualInput.Probe.exe [--snapshot | --self-test | --smoke-observe]"); return 2; }
+        if (args.Length != 0) { Console.Error.WriteLine("Usage: [--snapshot | --self-test | --smoke-observe | --isolation-capabilities]"); return 2; }
         using var mutex = new Mutex(true, "Local\\WhaleDualInput-Probe", out var created);
         if (!created) { MessageBox.Show("입력 연구 도구가 이미 실행 중입니다."); return 1; }
         Application.Run(new ProbeWindow()); return 0;
@@ -99,6 +108,6 @@ internal static class SelfTest
         for (var i = 0; i < StudentSeat.Capacity; i++) seat.Accept("pointer-1", 2, "touch", "move", new(5, 5));
         Check(seat.Overflows == 1 && seat.ContactCount == 0 && seat.Drain().All(e => e.Phase == "cancel"), "queue overload invalidates pending contacts");
         Console.WriteLine($"Native policy/ABI tests OK: {checkedCount}; hardware G1/G2 NOT TESTED");
-        ProtectionTests.Run(); return 0;
+        ProtectionTests.Run(); PointerIsolationTests.Run(); return 0;
     }
 }

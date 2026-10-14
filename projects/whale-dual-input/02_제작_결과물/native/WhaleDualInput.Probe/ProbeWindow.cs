@@ -9,10 +9,12 @@ internal sealed class ProbeWindow : Form
     private InputObserver? observer;
     private MouseGuardExperiment? mouse;
     private StudentSurface? surface;
+    private PointerIsolationExperiment? isolation;
     private readonly Label status = new() { AutoSize = true, MaximumSize = new Size(600, 0), Text = "OFF · 관찰 시작 전. 입력 보호 기능은 아직 검증되지 않았습니다." };
     private readonly TextBox details = new() { Multiline = true, ReadOnly = true, ScrollBars = ScrollBars.Vertical, Dock = DockStyle.Fill };
     private readonly Button observe = Button("입력 관찰 시작 (2분)");
     private readonly Button experiment = Button("차단 후보 ON (30초 시험)");
+    private readonly Button isolate = Button("원본 터치 격리 (연구 30초)");
     private readonly Button stop = Button("OFF · 시험 중지 (F9)");
     private readonly System.Windows.Forms.Timer refresh = new() { Interval = 200 };
     private bool ending;
@@ -32,7 +34,7 @@ internal sealed class ProbeWindow : Form
         layout.Controls.Add(status);
         var buttons = new FlowLayoutPanel { AutoSize = true, Dock = DockStyle.Fill, WrapContents = true };
         var diagnose = Button("화면·장치 다시 확인"); var export = Button("익명 진단 저장"); var mark = Button("학생 터치 시험 구간 표시");
-        buttons.Controls.AddRange([observe, experiment, stop, diagnose, mark]); layout.Controls.Add(buttons);
+        buttons.Controls.AddRange([observe, experiment, isolate, stop, diagnose, mark]); layout.Controls.Add(buttons);
         layout.Controls.Add(details); layout.Controls.Add(export); Controls.Add(layout);
         observe.Click += (_, _) => Start(false);
         experiment.Click += (_, _) =>
@@ -40,12 +42,24 @@ internal sealed class ProbeWindow : Form
             if (MessageBox.Show(this, "30초 동안 교사 커서를 주 화면에 제한하고 마우스 차단 후보를 시험합니다.\n\n직접 터치 경로가 새어 교사 커서·포커스를 바꿀 수 있습니다. 시험 문서만 사용하세요. F9 또는 OFF로 중지합니다. Whale에는 입력을 보내지 않습니다.", "연구 시험", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.OK) Start(true);
         };
         stop.Click += (_, _) => End("사용자 OFF");
+        isolate.Click += (_, _) =>
+        {
+            if (MessageBox.Show(this, "연구용 원본 터치 리디렉션을 최대 30초 등록합니다.\n터치·펜 타입 전체를 받으며 학생 웹 전달은 하지 않습니다.\nF9 또는 모니터 1의 OFF로 해제합니다.\n강제 종료·보안 화면에서는 보호 공백이 생길 수 있습니다.\n\n정책·서명 조건을 갖춘 시험 환경에서만 진행하세요.", "원본 격리 연구", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+                StartIsolation();
+        };
         diagnose.Click += (_, _) => { End("장치 재검사"); inventory = DisplayDiscovery.Read(log); Render(); };
         mark.Click += (_, _) => { if (observer?.Running == true) log.Add("STUDENT_TRIAL_MARKER"); };
         export.Click += (_, _) => Export();
         refresh.Tick += (_, _) =>
         {
             mouse?.Beat();
+            isolation?.Beat();
+            if (isolation != null && !isolation.Running) End(isolation.Status);
+            if (isolation != null)
+            {
+                foreach (var input in isolation.Drain())
+                    log.Add("ISOLATED_POINTER_CONSUMED", log.Alias(input.Device, "pointer"), input.X, input.Y, input.Message);
+            }
             if (mouse != null && !mouse.Running) End(mouse.State);
             if (surface != null && observer?.LastStudentPoint is Point point) surface.UpdateCandidate(point, observer.LastStudentSource);
             if (observer != null)
@@ -54,7 +68,7 @@ internal sealed class ProbeWindow : Form
             }
             Render();
         };
-        LocationChanged += (_, _) => { if (mouse?.Running == true && inventory.Teacher?.Bounds.Contains(Bounds) != true) End("교사 제어창이 주 화면을 벗어남"); };
+        LocationChanged += (_, _) => { if ((mouse?.Running == true || isolation?.Running == true) && inventory.Teacher?.Bounds.Contains(Bounds) != true) End("교사 제어창이 주 화면을 벗어남"); };
         refresh.Start(); Render();
     }
     private static Button Button(string text) => new() { Text = text, AutoSize = true, MinimumSize = new(150, 44), Margin = new Padding(4) };
@@ -89,6 +103,16 @@ internal sealed class ProbeWindow : Form
         try
         {
             string? failure = null;
+            if (isolation != null)
+            {
+                try
+                {
+                    isolation.Dispose();
+                    if (isolation.Status.Contains("UNCONFIRMED", StringComparison.Ordinal) || isolation.Status.Contains("RECHECK_REQUIRED", StringComparison.Ordinal)) failure = isolation.Status;
+                }
+                catch (Exception error) { failure = error.Message; }
+                if (!isolation.Running) isolation = null;
+            }
             if (mouse != null)
             {
                 try { mouse.Dispose(); if (mouse.State.StartsWith("ERROR_", StringComparison.Ordinal)) failure = mouse.State; }
@@ -109,10 +133,14 @@ internal sealed class ProbeWindow : Form
     private void Render()
     {
         var snapshot = log.Snapshot();
-        observe.Enabled = mouse == null;
-        experiment.Enabled = mouse == null && InputPolicy.CanBlock(inventory);
-        stop.Enabled = mouse != null || observer != null;
+        observe.Enabled = mouse == null && isolation == null;
+        experiment.Enabled = mouse == null && isolation == null && InputPolicy.CanBlock(inventory);
+        var eligibility = DisplayDiscovery.IsolationEligibility(inventory, PointerIsolationNative.HasUiAccess());
+        isolate.Enabled = mouse == null && isolation == null && eligibility == "RESEARCH_ELIGIBLE";
+        stop.Enabled = mouse != null || observer != null || isolation != null;
         details.Text = $"자동 판정: {inventory.Decision}\r\n조회 사유: {string.Join(", ", inventory.Errors)}\r\n격리 증거: NONE / G1: NOT TESTED / G2: NOT TESTED\r\n" +
+            $"원본 격리 실행 자격: {eligibility}\r\n원본 격리 backend: {isolation?.Status ?? "OFF"} / 소비={isolation?.Received ?? 0}\r\n" +
+            $"제품 보호 판정: {isolation?.Protection.State.ToString() ?? "미연결"} / 하드웨어 미검증\r\n" +
             (inventory.Errors.Length != 0 || inventory.Decision == "OTHER_OR_UNMAPPED_POINTER_DEVICE" ? "현재 구성: 관찰 가능 / 차단 시험 불가\r\n" : "") +
             string.Join("\r\n", inventory.Displays.Select(d => $"{d.Id} {(d.Primary ? "교사 주 화면" : "학생 보조 화면")} {d.Bounds} DPI {d.DpiX}/{d.DpiY} 회전 {d.Rotation} 출력경로={d.PhysicalTargetPaths}")) + "\r\n\r\n" +
             string.Join("\r\n", inventory.Devices.Select(d => $"{d.Id} {d.Kind} 화면={d.DisplayId ?? "미확인"} 최대접촉={d.Contacts} usage={d.UsagePage}/{d.Usage}")) + "\r\n\r\n" +
@@ -140,9 +168,29 @@ internal sealed class ProbeWindow : Form
             var baselineArrival = message.Msg == 0xfe && message.WParam == 1 &&
                 inventory.Devices.Any(d => d.Id == arrivalId);
             if (observer?.Running == true) log.Add("TOPOLOGY_NOTIFICATION", detail: (uint)message.Msg);
-            if (InputPolicy.StopForTopology(mouse?.State == "EXPERIMENTAL_NOT_VERIFIED", baselineArrival)) End("장치·화면·세션 변경");
+            if (isolation?.Running == true && !baselineArrival || InputPolicy.StopForTopology(mouse?.State == "EXPERIMENTAL_NOT_VERIFIED", baselineArrival)) End("장치·화면·세션 변경");
         }
         base.WndProc(ref message);
+    }
+    private void StartIsolation()
+    {
+        End("새 격리 시험");
+        try
+        {
+            if (mouse != null || isolation != null) throw new InvalidOperationException("PREVIOUS_RELEASE_UNCONFIRMED");
+            inventory = DisplayDiscovery.Read(log);
+            var eligibility = DisplayDiscovery.IsolationEligibility(inventory, PointerIsolationNative.HasUiAccess());
+            if (eligibility != "RESEARCH_ELIGIBLE") throw new InvalidOperationException(eligibility);
+            if (!sessionRegistered || inventory.Teacher?.Bounds.Contains(Bounds) != true) throw new InvalidOperationException("TEACHER_CONTROL_UNAVAILABLE");
+            var devices = DisplayDiscovery.IsolationDevices(inventory, log);
+            observer = new InputObserver(Handle, log, inventory); observer.Start();
+            isolation = new(devices, inventory.Student!.Bounds);
+            isolation.Start();
+            status.Text = "원본 리디렉션 등록됨 · 연구 30초 · G1 미검증 · 학생 웹 전달 없음 · F9/OFF";
+            log.Add("POINTER_REGISTRATION_EXPERIMENTAL");
+        }
+        catch (Exception error) { End("원본 격리 시작 거부: " + error.Message); }
+        Render();
     }
     protected override void OnHandleCreated(EventArgs e) { base.OnHandleCreated(e); sessionRegistered = SessionNotifications.Register(Handle); }
     protected override void OnFormClosing(FormClosingEventArgs e)

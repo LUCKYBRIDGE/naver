@@ -4,6 +4,8 @@
 
 ## 2026-10-14 상태 코어 검사
 
+후속 원본 격리 연구 엔진: build:input-probe / build:isolation-research 통과, 일반 Probe self-test에 등록 자격·타입 제한·partial rollback·해제 실패 검사 19개 추가(전체 Native 89개). --isolation-capabilities 읽기 전용 조회에서 UIAccess=false/registrationAttempted=false를 확인했다. 실제 Windows 등록/원본 소비는 미실행이다. [격리 엔진 구현](ISOLATION_A_IMPLEMENTATION.md)
+
 Probe의 self-test에 Native 보호 상태 결함 주입 검사 30개를 추가했다. 증거/하드웨어 미확인·stale 응답·TTL·disconnect·STOP/PAUSE ACK·timeout·재개·격리 epoch를 검사한다. 합성 입력만 사용하며 원본 입력 차단이나 실제 G1/G2를 검증하지 않는다. [상태 계약](PROTECTION_STATE_CONTRACT.md)
 
 ## 2026-10-13 입력 연구 도구 구현/관찰

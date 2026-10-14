@@ -85,6 +85,35 @@ internal static class DisplayDiscovery
         return "NO_MAPPED_POINTER_MOUSE_PATH_UNVERIFIED";
     }
 
+    internal static string IsolationEligibility(Inventory inventory, bool uiAccess)
+    {
+        if (!uiAccess) return "UIACCESS_REQUIRED";
+        if (!InputPolicy.CanBlock(inventory)) return "ISOLATION_MAPPING_UNSUPPORTED";
+        if (inventory.Decision != "POINTER_MAPPING_OBSERVED_ISOLATION_UNVERIFIED") return "PT_MOUSE_REDIRECTION_UNSUPPORTED";
+        if (!inventory.Devices.Any(d => d.Kind == "TOUCH" && d.DisplayId == inventory.Student?.Id)) return "TOUCH_DEVICE_REQUIRED";
+        return "RESEARCH_ELIGIBLE";
+    }
+
+    internal static Dictionary<nint, uint> IsolationDevices(Inventory inventory, ObservationLog log)
+    {
+        uint count = 0;
+        if (!Native.GetPointerDevices(ref count, null) || count is 0 or > 256) throw new InvalidOperationException("POINTER_DISCOVERY_FAILED");
+        var pointers = new Native.PointerDevice[count];
+        if (!Native.GetPointerDevices(ref count, pointers)) throw new InvalidOperationException("POINTER_DISCOVERY_CHANGED");
+        var expected = inventory.Devices.Where(d => d.Kind is "TOUCH" or "PEN_INTEGRATED" or "PEN_EXTERNAL").ToArray();
+        var result = new Dictionary<nint, uint>();
+        foreach (var p in pointers.Take((int)count).Where(p => p.Type is 1 or 2 or 3))
+        {
+            var id = log.Alias(p.Device, "pointer");
+            if (!expected.Any(d => d.Id == id && d.DisplayId == inventory.Student?.Id) ||
+                !Native.GetPointerDeviceRects(p.Device, out _, out var rect) || rect.Value != inventory.Student?.Bounds)
+                throw new InvalidOperationException("POINTER_MAPPING_CHANGED");
+            result.Add(p.Device, p.Type == 3 ? 2u : 3u);
+        }
+        if (result.Count != expected.Length) throw new InvalidOperationException("POINTER_DISCOVERY_CHANGED");
+        return result;
+    }
+
     private static Dictionary<string, (uint Rotation, uint Targets)> ReadPaths(List<string> errors)
     {
         for (var attempt = 0; attempt < 3; attempt++)

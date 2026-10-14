@@ -2,6 +2,8 @@
 
 2026-10-08. **준비 판정: 연구 후보 / 제품 배포 미승인 / 실행 자격 미확인.** 이는 API 구현 불가능 판정이나 법적 결론이 아니다. 공식 문서를 확인했지만 인증서·실행 토큰·학교 정책·실기기는 검증하지 않았다.
 
+2026-10-14: [연구 소비 엔진](ISOLATION_A_IMPLEMENTATION.md)을 구현하고 uiAccess=true의 별도 빌드를 생성했다. 서명/설치/실행은 수행하지 않았다. 일반 Probe의 실제 TokenUIAccess 조회는 false이며 시작 자격은 UIACCESS_REQUIRED다. 접근성 목적/학교 정책 판정은 여전히 미확인이고 제품 배포 미승인 상태다. API 호출 코드를 완성한 것과 정책 게이트 통과를 구분한다.
+
 ## 공식 근거
 
 - Microsoft는 UIAccess를 접근성 보조 기술의 특별 권한으로 설명하고, 관련 접근성 목적·Authenticode 서명·보호된 설치 위치·앱 manifest를 요구한다. 비보조 기술 앱에서의 사용은 피하도록 명시한다. [Security Considerations for Assistive Technologies](https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-securityoverview)

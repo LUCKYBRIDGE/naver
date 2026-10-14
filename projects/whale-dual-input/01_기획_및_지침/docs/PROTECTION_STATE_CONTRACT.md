@@ -3,6 +3,8 @@
 2026-10-14. 코드: `02_제작_결과물/native/WhaleDualInput.Core/ProtectionStateManager.cs`.
 상태: 순수 Native 상태 코어 구현·결함 주입 검사 완료. **물리 입력 격리 엔진·Bridge·제품 Worker에는 아직 연결하지 않았다.** 연구 도구의 관찰/차단 후보 상태와 제품 보호 상태는 별개다.
 
+후속 구현: [PointerIsolationExperiment](ISOLATION_A_IMPLEMENTATION.md)가 등록 결과를 EXPERIMENTAL로, 해제 응답을 NONE으로 상태 코어에 전달한다. 따라서 제품 ACTIVE를 발급하지 않는다. Bridge·제품 Worker 통합은 계속 후속이다. 아래 계약은 유지한다.
+
 ## 상태 발급 조건
 
 - START/RESUME/RECHECK는 DISCOVERING을 거쳐 실제 확인 데이터를 받는다. 매핑 완료 체크포인트는 PREPARING이다.

@@ -16,6 +16,7 @@
 - `npm run build`: JavaScript 문법·MV3 리소스 검사, 제품/실험 확장앱의 별도 출력.
 - `npm run build:windows`: .NET 10 SDK로 Windows 호스트를 win-x64 자체 포함 EXE로 게시하고 제품 확장앱과 ZIP 생성. Native 중간 산출물은 기기 로컬 캐시에 둔다.
 - `npm run build:input-probe`: 2026-10-13 입력 연구 도구를 별도 win-x64 EXE로 게시. 관찰은 입력을 차단하지 않는다. 사용·실측 기록은 프로젝트 `INPUT_PROBE_RUNBOOK.md` / `M0_5_MEASUREMENT.md` 참조. 실제 G1 성공으로 해석하지 않는다.
+- `npm run build:isolation-research`: 서명되지 않은 UIAccess 원본 소비 연구 빌드를 별도 게시. 서명/설치/실행을 수행하지 않는다. `ISOLATION_A_IMPLEMENTATION.md`의 정책·자격 게이트를 따른다. 제품 Manifest 권한과는 별개다.
 - 2026-10-07 사용자 지시: 테스트를 선행 조건으로 삼지 않고 기능 구현을 먼저 완성한다. 실기기 검증은 구현 이후 수행하며 성공 결과를 추정하지 않는다.
 - `npm run p1a:serve`: 루프백 시험 서버. 실제 Whale·Windows 검증 절차는 `projects/whale-dual-input/01_기획_및_지침/docs/P1A_RUNBOOK.md` 참조.
 - 위 검사 통과를 Windows 입력 보호 또는 Whale 실기기 성공으로 해석하지 않는다.

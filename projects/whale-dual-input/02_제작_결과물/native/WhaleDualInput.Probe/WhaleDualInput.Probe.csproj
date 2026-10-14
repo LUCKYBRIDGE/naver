@@ -11,5 +11,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../WhaleDualInput.Core/ProtectionStateManager.cs" Link="Core/ProtectionStateManager.cs" />
+    <Compile Include="../WhaleDualInput.Core/PointerRegistration.cs" Link="Core/PointerRegistration.cs" />
   </ItemGroup>
 </Project>
